@@ -1,0 +1,419 @@
+{
+  "product": {
+    "name": "Vulcan OmniPro 220",
+    "challenge": "Prox founding engineer challenge",
+    "validatedAt": "2026-04-06",
+    "sources": [
+      "files/owner-manual.pdf",
+      "files/quick-start-guide.pdf",
+      "files/selection-chart.pdf"
+    ]
+  },
+  "starterQuestions": [
+    "What's the duty cycle for MIG welding at 200A on 240V?",
+    "What polarity setup do I need for TIG welding?",
+    "I'm getting porosity in my flux-cored welds. What should I check?"
+  ],
+  "safety": [
+    "Always turn the Power Switch off and unplug the welder before setup or cable changes.",
+    "Secure shielding gas cylinders to prevent tipping.",
+    "Do not use an extension cord on this welder according to the troubleshooting guidance."
+  ],
+  "specifications": {
+    "mig": {
+      "120V": {
+        "powerInput": "120 VAC / 60 Hz",
+        "currentInputAtOutput": "20.8 A at 100 A",
+        "weldingCurrentRange": "30-140 A",
+        "maximumOCV": "86 VDC",
+        "weldableMaterials": [
+          "Mild Steel",
+          "Stainless Steel",
+          "Aluminum (with optional Spool Gun)"
+        ],
+        "wireCapacity": [
+          "Solid Core: 0.025 / 0.030 / 0.035 in",
+          "Flux Cored: 0.030 / 0.035 / 0.045 in"
+        ],
+        "wireSpeed": "50-500 IPM",
+        "wireSpoolCapacity": "Up to 12 lb spool",
+        "dutyCyclePoints": [
+          {
+            "percent": 40,
+            "amperage": 100,
+            "voltage": 19
+          },
+          {
+            "percent": 60,
+            "amperage": 85,
+            "voltage": 18.25
+          },
+          {
+            "percent": 100,
+            "amperage": 75,
+            "voltage": 17.75
+          }
+        ],
+        "manualPage": 7
+      },
+      "240V": {
+        "powerInput": "240 VAC / 60 Hz",
+        "currentInputAtOutput": "25.5 A at 200 A",
+        "weldingCurrentRange": "30-220 A",
+        "maximumOCV": "86 VDC",
+        "weldableMaterials": [
+          "Mild Steel",
+          "Stainless Steel",
+          "Aluminum (with optional Spool Gun)"
+        ],
+        "wireCapacity": [
+          "Solid Core: 0.025 / 0.030 / 0.035 in",
+          "Flux Cored: 0.030 / 0.035 / 0.045 in"
+        ],
+        "wireSpeed": "50-500 IPM",
+        "wireSpoolCapacity": "Up to 12 lb spool",
+        "dutyCyclePoints": [
+          {
+            "percent": 25,
+            "amperage": 200,
+            "voltage": 24
+          },
+          {
+            "percent": 60,
+            "amperage": 130,
+            "voltage": 20.5
+          },
+          {
+            "percent": 100,
+            "amperage": 115,
+            "voltage": 19.75
+          }
+        ],
+        "manualPage": 7
+      }
+    },
+    "tig": {
+      "120V": {
+        "powerInput": "120 VAC / 60 Hz",
+        "currentInputAtOutput": "20.6 A at 125 A",
+        "weldingCurrentRange": "10-125 A",
+        "maximumOCV": "86 VDC",
+        "weldableMaterials": [
+          "Mild Steel",
+          "Stainless Steel",
+          "Chrome Moly"
+        ],
+        "dutyCyclePoints": [
+          {
+            "percent": 40,
+            "amperage": 125,
+            "voltage": 15
+          },
+          {
+            "percent": 60,
+            "amperage": 105,
+            "voltage": 14.2
+          },
+          {
+            "percent": 100,
+            "amperage": 90,
+            "voltage": 13.6
+          }
+        ],
+        "manualPage": 7
+      },
+      "240V": {
+        "powerInput": "240 VAC / 60 Hz",
+        "currentInputAtOutput": "15.6 A at 175 A",
+        "weldingCurrentRange": "10-175 A",
+        "maximumOCV": "86 VDC",
+        "weldableMaterials": [
+          "Mild Steel",
+          "Stainless Steel",
+          "Chrome Moly"
+        ],
+        "dutyCyclePoints": [
+          {
+            "percent": 30,
+            "amperage": 175,
+            "voltage": 17
+          },
+          {
+            "percent": 60,
+            "amperage": 125,
+            "voltage": 15
+          },
+          {
+            "percent": 100,
+            "amperage": 105,
+            "voltage": 14.2
+          }
+        ],
+        "manualPage": 7
+      }
+    },
+    "stick": {
+      "120V": {
+        "powerInput": "120 VAC / 60 Hz",
+        "currentInputAtOutput": "19.5 A at 80 A",
+        "weldingCurrentRange": "10-80 A",
+        "maximumOCV": "86 VDC",
+        "weldableMaterials": [
+          "Mild Steel",
+          "Stainless Steel"
+        ],
+        "dutyCyclePoints": [
+          {
+            "percent": 40,
+            "amperage": 80,
+            "voltage": 23.2
+          },
+          {
+            "percent": 60,
+            "amperage": 70,
+            "voltage": 22.8
+          },
+          {
+            "percent": 100,
+            "amperage": 60,
+            "voltage": 22.4
+          }
+        ],
+        "manualPage": 7
+      },
+      "240V": {
+        "powerInput": "240 VAC / 60 Hz",
+        "currentInputAtOutput": "23.7 A at 175 A",
+        "weldingCurrentRange": "10-175 A",
+        "maximumOCV": "86 VDC",
+        "weldableMaterials": [
+          "Mild Steel",
+          "Stainless Steel"
+        ],
+        "dutyCyclePoints": [
+          {
+            "percent": 25,
+            "amperage": 175,
+            "voltage": 27
+          },
+          {
+            "percent": 60,
+            "amperage": 115,
+            "voltage": 24.6
+          },
+          {
+            "percent": 100,
+            "amperage": 100,
+            "voltage": 24
+          }
+        ],
+        "manualPage": 7
+      }
+    }
+  },
+  "polarity": {
+    "mig": {
+      "polarity": "DCEP",
+      "summary": "Solid wire with shielding gas uses direct current electrode positive.",
+      "groundClampSocket": "negative",
+      "leadSocket": "positive",
+      "steps": [
+        "Plug the ground clamp cable into the negative socket.",
+        "Plug the wire feed power cable into the positive socket.",
+        "Connect shielding gas and choose the gas recommended on the settings chart inside the door."
+      ],
+      "manualPage": 14,
+      "imagePath": "/manual-pages/owner-manual-p14.png"
+    },
+    "flux-cored": {
+      "polarity": "DCEN",
+      "summary": "Flux-cored self-shielded welding uses direct current electrode negative.",
+      "groundClampSocket": "positive",
+      "leadSocket": "negative",
+      "steps": [
+        "Plug the ground clamp cable into the positive socket.",
+        "Plug the wire feed power cable into the negative socket.",
+        "Use the lower feed tension range listed for flux-cored wire."
+      ],
+      "manualPage": 13,
+      "imagePath": "/manual-pages/owner-manual-p13.png"
+    },
+    "tig": {
+      "polarity": "DCEN",
+      "summary": "TIG setup routes the torch negative and the ground clamp positive.",
+      "groundClampSocket": "positive",
+      "leadSocket": "negative",
+      "steps": [
+        "Plug the ground clamp cable into the positive socket.",
+        "Plug the TIG torch cable into the negative socket.",
+        "Connect the foot pedal inside the welder if using one.",
+        "Connect 100 percent argon shielding gas."
+      ],
+      "manualPage": 24,
+      "imagePath": "/manual-pages/owner-manual-p24.png"
+    },
+    "stick": {
+      "polarity": "DCEP",
+      "summary": "Stick setup uses the ground clamp negative and the electrode holder positive.",
+      "groundClampSocket": "negative",
+      "leadSocket": "positive",
+      "steps": [
+        "Plug the ground clamp cable into the negative socket.",
+        "Plug the electrode holder cable into the positive socket."
+      ],
+      "manualPage": 27,
+      "imagePath": "/manual-pages/owner-manual-p27.png"
+    }
+  },
+  "troubleshooting": [
+    {
+      "processes": [
+        "mig",
+        "flux-cored"
+      ],
+      "issue": "Porosity in the weld metal",
+      "manualPage": 43,
+      "causes": [
+        "Shielding gas bottle is empty.",
+        "Not enough or too much shielding gas.",
+        "Dirty workpiece.",
+        "Gun is too far from the workpiece.",
+        "Polarity is incorrect for the application.",
+        "Dirty welding wire is introducing contamination."
+      ],
+      "solutions": [
+        "Check the gas bottle and refill if necessary.",
+        "Set the gas regulator to the proper flow.",
+        "Clean the workpiece to bare metal.",
+        "Reduce CTWD to the proper distance.",
+        "Use DCEP for MIG and DCEN for flux-cored.",
+        "Make sure the wire is clean and free of rust or residue."
+      ]
+    },
+    {
+      "processes": [
+        "mig",
+        "flux-cored"
+      ],
+      "issue": "Welding arc not stable",
+      "manualPage": 42,
+      "causes": [
+        "Wire not feeding properly.",
+        "Incorrect contact tip or liner size.",
+        "Incorrect wire feed speed.",
+        "Loose MIG gun cable or ground cable.",
+        "Incorrect polarity for the process.",
+        "Gas coverage may be insufficient or too high."
+      ],
+      "solutions": [
+        "Check feed issues first.",
+        "Replace the tip or liner with the correct size.",
+        "Adjust wire feed speed for a more stable arc.",
+        "Tighten all cable connections.",
+        "Use DCEP for MIG and DCEN for flux-cored self-shielded welding.",
+        "Set the gas flow according to the settings chart."
+      ]
+    },
+    {
+      "processes": [
+        "mig",
+        "flux-cored"
+      ],
+      "issue": "Wire feeds but arc does not ignite",
+      "manualPage": 43,
+      "causes": [
+        "Improper ground connection.",
+        "Improperly sized contact tip.",
+        "Excessively worn contact tip.",
+        "Dirty contact tip."
+      ],
+      "solutions": [
+        "Clamp to clean workpiece metal near the weld and ensure a solid machine connection.",
+        "Verify the contact tip is the proper size for the wire.",
+        "Replace worn tips.",
+        "Clean the tip."
+      ]
+    },
+    {
+      "processes": [
+        "tig",
+        "stick"
+      ],
+      "issue": "Weak arc strength",
+      "manualPage": 44,
+      "causes": [
+        "Incorrect line voltage.",
+        "Improper gauge or length of cord."
+      ],
+      "solutions": [
+        "Check the line voltage and have a licensed electrician correct insufficient voltage.",
+        "Do not use an extension cord on this welder. Use the supplied power cords or an identical replacement."
+      ]
+    }
+  ],
+  "manualPages": [
+    {
+      "source": "owner-manual",
+      "page": 7,
+      "topic": "specifications",
+      "label": "Specifications and duty cycles",
+      "imagePath": "/manual-pages/owner-manual-p07.png"
+    },
+    {
+      "source": "owner-manual",
+      "page": 13,
+      "topic": "flux-cored polarity",
+      "label": "Flux-cored DCEN polarity setup",
+      "imagePath": "/manual-pages/owner-manual-p13.png"
+    },
+    {
+      "source": "owner-manual",
+      "page": 14,
+      "topic": "mig polarity",
+      "label": "MIG DCEP polarity setup",
+      "imagePath": "/manual-pages/owner-manual-p14.png"
+    },
+    {
+      "source": "owner-manual",
+      "page": 24,
+      "topic": "tig setup",
+      "label": "TIG setup and cable routing",
+      "imagePath": "/manual-pages/owner-manual-p24.png"
+    },
+    {
+      "source": "owner-manual",
+      "page": 27,
+      "topic": "stick setup",
+      "label": "Stick setup and cable routing",
+      "imagePath": "/manual-pages/owner-manual-p27.png"
+    },
+    {
+      "source": "owner-manual",
+      "page": 42,
+      "topic": "mig troubleshooting",
+      "label": "MIG and flux-cored troubleshooting matrix",
+      "imagePath": "/manual-pages/owner-manual-p42.png"
+    },
+    {
+      "source": "owner-manual",
+      "page": 43,
+      "topic": "porosity troubleshooting",
+      "label": "Porosity troubleshooting and arc ignition guidance",
+      "imagePath": "/manual-pages/owner-manual-p43.png"
+    },
+    {
+      "source": "owner-manual",
+      "page": 44,
+      "topic": "tig and stick troubleshooting",
+      "label": "TIG and stick troubleshooting matrix",
+      "imagePath": "/manual-pages/owner-manual-p44.png"
+    }
+  ],
+  "weldSettings": [
+    {
+      "validated": false,
+      "message": "Selection-chart extraction is not wired into the starter data yet, so exact material and thickness settings are still pending validation."
+    }
+  ]
+}
+

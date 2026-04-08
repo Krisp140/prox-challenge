@@ -1,0 +1,17 @@
+.DS_Store
+.next
+node_modules
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+dist
+coverage
+.npm-cache
+playwright-report
+test-results
+.vercel
+*.log
+*.tsbuildinfo
+CLAUDE.md

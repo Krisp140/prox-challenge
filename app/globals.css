@@ -1,0 +1,377 @@
+@import "tailwindcss";
+
+/* ─── Design tokens ─────────────────────────────────── */
+:root {
+  --bg:           #09080A;
+  --bg-surface:   #0E0C10;
+  --bg-raised:    #151218;
+  --bg-card:      #110F13;
+  --bg-input:     #0C0A0E;
+
+  --border:       rgba(232, 132, 10, 0.13);
+  --border-mid:   rgba(232, 132, 10, 0.24);
+  --border-strong:rgba(232, 132, 10, 0.42);
+  --border-muted: rgba(255, 255, 255, 0.055);
+  --border-mid-neutral: rgba(255, 255, 255, 0.09);
+
+  --text:         #EDE8DF;
+  --text-muted:   #7A7068;
+  --text-dim:     #302A26;
+
+  --accent:       #E8840A;
+  --accent-light: #F5A030;
+  --accent-glow:  rgba(232, 132, 10, 0.08);
+  --accent-tint:  rgba(232, 132, 10, 0.06);
+
+  --red:          #C0392B;
+  --red-dim:      rgba(192, 57, 43, 0.12);
+  --green:        #27AE60;
+  --green-dim:    rgba(39, 174, 96, 0.12);
+  --amber:        #E67E22;
+}
+
+/* ─── Light theme ──────────────────────────────────── */
+[data-theme="light"] {
+  --bg:           #F4F1EC;
+  --bg-surface:   #FFFFFF;
+  --bg-raised:    #EDE9E3;
+  --bg-card:      #FAF9F7;
+  --bg-input:     #FFFFFF;
+
+  --border:       rgba(232, 132, 10, 0.20);
+  --border-mid:   rgba(232, 132, 10, 0.32);
+  --border-strong:rgba(232, 132, 10, 0.50);
+  --border-muted: rgba(0, 0, 0, 0.08);
+  --border-mid-neutral: rgba(0, 0, 0, 0.12);
+
+  --text:         #1A1612;
+  --text-muted:   #6B6158;
+  --text-dim:     #C4BBB0;
+
+  --accent:       #D47408;
+  --accent-light: #E8840A;
+  --accent-glow:  rgba(232, 132, 10, 0.06);
+  --accent-tint:  rgba(232, 132, 10, 0.06);
+
+  --red:          #B5301F;
+  --red-dim:      rgba(192, 57, 43, 0.08);
+  --green:        #1E8C4E;
+  --green-dim:    rgba(39, 174, 96, 0.08);
+  --amber:        #C96D1B;
+}
+
+/* ─── Base reset ─────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+html { color-scheme: dark; }
+[data-theme="light"] { color-scheme: light; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: var(--font-barlow, 'Barlow', 'Segoe UI', sans-serif);
+  background-color: var(--bg);
+
+  /* Diagonal hatch — technical-drawing aesthetic */
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px,
+      transparent 30px,
+      rgba(232, 132, 10, 0.016) 30px,
+      rgba(232, 132, 10, 0.016) 31px
+    );
+}
+
+/* Top ambient glow — warm arc light from above */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 320px;
+  background: radial-gradient(
+    ellipse 70% 100% at 50% -10%,
+    rgba(232, 132, 10, 0.065),
+    transparent
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Light mode: softer hatch + warm cream glow */
+[data-theme="light"] body {
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px,
+      transparent 30px,
+      rgba(180, 140, 80, 0.04) 30px,
+      rgba(180, 140, 80, 0.04) 31px
+    );
+}
+[data-theme="light"] body::before {
+  background: radial-gradient(
+    ellipse 70% 100% at 50% -10%,
+    rgba(232, 132, 10, 0.04),
+    transparent
+  );
+}
+
+/* Light mode: softer shadows and borders on shell/input */
+[data-theme="light"] .mach-shell {
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.04),
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+[data-theme="light"] .term-input {
+  box-shadow:
+    inset 0 1px 4px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(232, 132, 10, 0.04);
+}
+[data-theme="light"] .term-input:focus-within {
+  box-shadow:
+    inset 0 1px 4px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(232, 132, 10, 0.16),
+    0 0 16px rgba(232, 132, 10, 0.04);
+}
+[data-theme="light"] .led-orange { box-shadow: 0 0 4px rgba(212, 116, 8, 0.5); }
+[data-theme="light"] .led-green  { box-shadow: 0 0 4px rgba(30, 140, 78, 0.4); }
+[data-theme="light"] .led-amber  { box-shadow: 0 0 4px rgba(201, 109, 27, 0.4); }
+
+/* Light scrollbar */
+[data-theme="light"] * {
+  scrollbar-color: rgba(0, 0, 0, 0.12) transparent;
+}
+[data-theme="light"] *::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.12); }
+[data-theme="light"] *::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.22); }
+
+a { color: inherit; }
+button, input, textarea { font: inherit; }
+pre, code {
+  font-family: var(--font-mono, 'IBM Plex Mono', 'SF Mono', monospace);
+}
+
+/* ─── Typography helpers ─────────────────────────────── */
+.font-display {
+  font-family: var(--font-barlow-condensed, 'Barlow Condensed', 'Impact', sans-serif);
+}
+.font-mono-display {
+  font-family: var(--font-mono, 'IBM Plex Mono', 'SF Mono', monospace);
+}
+
+/* ─── Industrial panel components ────────────────────── */
+
+/* Main container — the "machine housing" */
+.mach-shell {
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  box-shadow:
+    0 0 0 1px rgba(232, 132, 10, 0.04),
+    0 24px 64px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* Inner panel / card */
+.mach-panel {
+  border: 1px solid var(--border-muted);
+  background: var(--bg-card);
+}
+
+/* Section divider with centered label — looks like an instrument cluster separator */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.section-label::before,
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-muted);
+}
+
+/* Corner bracket accent — machined corner look */
+.bracket {
+  position: relative;
+}
+.bracket::before,
+.bracket::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--border-mid);
+  border-style: solid;
+  pointer-events: none;
+}
+.bracket::before {
+  top: -1px;
+  left: -1px;
+  border-width: 1px 0 0 1px;
+}
+.bracket::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 1px 1px 0;
+}
+
+/* ─── LED status indicators ──────────────────────────── */
+.led {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.led-orange {
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(232, 132, 10, 0.7);
+  animation: led-pulse 2.2s ease-in-out infinite;
+}
+.led-green {
+  background: var(--green);
+  box-shadow: 0 0 5px rgba(39, 174, 96, 0.6);
+}
+.led-amber {
+  background: var(--amber);
+  box-shadow: 0 0 5px rgba(230, 126, 34, 0.6);
+  animation: led-pulse 0.9s ease-in-out infinite;
+}
+.led-dim {
+  background: var(--border-muted);
+}
+
+/* ─── Message treatments ─────────────────────────────── */
+.msg-user {
+  border-left: 2px solid var(--accent);
+  background: var(--accent-tint);
+}
+
+.msg-agent {
+  border-left: 2px solid var(--border-muted);
+  background: var(--bg-card);
+}
+
+/* ─── Control button (starter questions) ─────────────── */
+.ctrl-btn {
+  position: relative;
+  text-align: left;
+  border: 1px solid var(--border-muted);
+  background: var(--bg-card);
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+.ctrl-btn:hover {
+  border-color: var(--border-mid);
+  background: rgba(232, 132, 10, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(232, 132, 10, 0.08);
+}
+.ctrl-btn:active {
+  background: rgba(232, 132, 10, 0.07);
+}
+
+/* ─── Terminal input ─────────────────────────────────── */
+.term-input {
+  border: 1px solid var(--border-mid);
+  background: var(--bg-input);
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(232, 132, 10, 0.04);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.term-input:focus-within {
+  border-color: var(--border-strong);
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(232, 132, 10, 0.12),
+    0 0 24px rgba(232, 132, 10, 0.06);
+}
+
+/* ─── Animations ─────────────────────────────────────── */
+@keyframes led-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes stagger-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes artifact-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Stagger children sequentially */
+.stagger-children > * {
+  opacity: 0;
+  animation: stagger-up 0.35s ease forwards;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.04s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.09s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.14s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.19s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.24s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.29s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.34s; }
+
+/* ─── Artifact container ─────────────────────────────── */
+.artifact-shell {
+  border: 1px solid var(--border-muted);
+  background: var(--bg-card);
+}
+
+/* Scanline overlay for sidebar atmosphere */
+.scanline-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.04) 3px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(232, 132, 10, 0.2) transparent;
+}
+*::-webkit-scrollbar { width: 4px; height: 4px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: rgba(232, 132, 10, 0.2);
+  border-radius: 2px;
+}
+*::-webkit-scrollbar-thumb:hover { background: rgba(232, 132, 10, 0.35); }
