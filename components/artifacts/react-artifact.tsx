@@ -199,13 +199,14 @@ export function normalizeArtifactSource(source: string): string {
 
   const normalizedBody = body
     .join("\n")
-    // Strip export keywords from known component names
-    .replace(/^\s*export\s+default\s+async\s+function\s+(Artifact|App|Component)\b/m, "async function $1")
-    .replace(/^\s*export\s+default\s+function\s+(Artifact|App|Component)\b/m, "function $1")
-    .replace(/^\s*export\s+function\s+(Artifact|App|Component)\b/m, "function $1")
-    .replace(/^\s*export\s+(const|let|var)\s+(Artifact|App|Component)\b/m, "$1 $2")
-    .replace(/^\s*export\s+default\s+(Artifact|App|Component)\s*;?\s*$/m, "")
-    .replace(/^\s*export\s+\{[^}]*(Artifact|App|Component)[^}]*\}\s*;?\s*$/m, "");
+    // Strip all export keywords — artifact code runs in new Function(), not a module
+    .replace(/^\s*export\s+default\s+async\s+function\b/gm, "async function")
+    .replace(/^\s*export\s+default\s+function\b/gm, "function")
+    .replace(/^\s*export\s+default\s+class\b/gm, "class")
+    .replace(/^\s*export\s+function\b/gm, "function")
+    .replace(/^\s*export\s+(const|let|var)\b/gm, "$1")
+    .replace(/^\s*export\s+default\s+\w+\s*;?\s*$/gm, "")
+    .replace(/^\s*export\s+\{[^}]*\}\s*;?\s*$/gm, "");
 
   return prelude.length > 0
     ? `${prelude.join("\n")}\n${normalizedBody}`.trim()

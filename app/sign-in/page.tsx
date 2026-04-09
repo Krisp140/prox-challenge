@@ -30,12 +30,13 @@ export default function SignInPage() {
 
         <button
           onClick={() => signIn("google", { callbackUrl: "/" })}
-          className="flex w-full items-center justify-center gap-3 px-4 py-3 font-mono-display text-[11px] tracking-[0.12em] uppercase transition-colors"
+          className="flex w-full items-center justify-center gap-3 px-4 py-3 font-mono-display text-[11px] tracking-[0.12em] uppercase transition-all hover:opacity-85 hover:scale-[1.01] active:scale-[0.98] active:opacity-70"
           style={{
             background: "var(--accent)",
             color: "var(--bg)",
             fontWeight: 600,
             borderRadius: "2px",
+            cursor: "pointer",
           }}
         >
           <GoogleIcon />
