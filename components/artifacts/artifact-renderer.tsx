@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic";
 
 import type { ParsedArtifact } from "@/lib/agent/artifact-parser";
-import { SvgArtifact } from "./svg-artifact";
 
 const ReactArtifact = dynamic(
   () => import("./react-artifact").then((mod) => mod.ReactArtifact),
@@ -61,9 +60,8 @@ export function ArtifactRenderer({ artifact }: ArtifactRendererProps) {
       <div className="p-4">
         {artifact.type === "react" ? <ReactArtifact artifact={artifact} /> : null}
         {artifact.type === "mermaid" ? <MermaidArtifact artifact={artifact} /> : null}
-        {artifact.type === "svg" ? <SvgArtifact artifact={artifact} /> : null}
         {artifact.type === "manual-image" ? <ManualImageArtifact artifact={artifact} /> : null}
-        {!["react", "mermaid", "svg", "manual-image"].includes(artifact.type) ? (
+        {!["react", "mermaid", "manual-image"].includes(artifact.type) ? (
           <pre
             className="font-mono-display overflow-x-auto whitespace-pre-wrap text-[12px] leading-6"
             style={{
@@ -86,7 +84,6 @@ function typeLabel(type: string): string {
   switch (type) {
     case "react": return "REACT";
     case "mermaid": return "DIAGRAM";
-    case "svg": return "SVG";
     case "manual-image": return "MANUAL";
     default: return "CODE";
   }

@@ -411,8 +411,51 @@
   ],
   "weldSettings": [
     {
-      "validated": false,
-      "message": "Selection-chart extraction is not wired into the starter data yet, so exact material and thickness settings are still pending validation."
+      "validated": true,
+      "process": "mig",
+      "material": "steel",
+      "materialAliases": [
+        "mig steel"
+      ],
+      "thickness": "24 ga",
+      "thicknessAliases": [
+        "24ga",
+        "24 gauge"
+      ],
+      "source": "owner-manual",
+      "manualPage": 20,
+      "wireDiameter": ".030 in",
+      "wireSpeed": "121 in/min",
+      "voltage": "13.8 V",
+      "gas": "C25",
+      "runInWfs": "25",
+      "inductance": "5",
+      "spotTimer": "0.0",
+      "notes": [
+        "Derived from the owner-manual page 20 auto-weld settings screenshot.",
+        "The screenshot labels the process as MIG Steel and shows the selected wire diameter and material thickness."
+      ]
+    },
+    {
+      "validated": true,
+      "process": "mig",
+      "material": "stainless steel",
+      "materialAliases": [
+        "stainless"
+      ],
+      "thickness": "24 ga",
+      "thicknessAliases": [
+        "24ga",
+        "24 gauge"
+      ],
+      "source": "owner-manual",
+      "manualPage": 20,
+      "wireDiameter": ".025 in",
+      "gas": "Stainless Tri-Mix",
+      "notes": [
+        "Derived from the owner-manual page 20 selector screenshots for MIG Stainless Steel.",
+        "That screenshot shows material, thickness, wire diameter, and gas guidance, but not a paired wire-speed or voltage value for this exact row."
+      ]
     }
   ]
 }

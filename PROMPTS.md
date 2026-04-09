@@ -29,9 +29,9 @@ Concretely, the agent should strongly prefer interactive or visual outputs for t
 
 ## Important Caveat
 
-The current knowledge base still marks `weldSettings` as unvalidated and pending extraction.
+The current knowledge base only contains a small set of repo-sourced weld-setting rows extracted from owner-manual screenshots.
 
-That means prompts asking for a true settings configurator are still useful for testing artifact selection and fallback behavior, but the agent should explicitly say when validated wire speed and voltage are not available yet instead of inventing them.
+That means prompts asking for a true settings configurator are still useful for testing artifact selection and fallback behavior, but the agent should explicitly say when an exact validated row is not available instead of inventing one.
 
 ## Minimal Full-Coverage Set
 
@@ -44,7 +44,7 @@ Use these prompts if you want the shortest set that touches nearly every impleme
 | `What's the duty cycle for MIG welding at 200A on 240V?` | `calculateDutyCycle` | Plain text answer with exact duty-cycle values |
 | `I'm getting porosity in my flux-cored welds. What should I check first?` | `getTroubleshooting` | Troubleshooting answer |
 | `Show me the TIG setup manual page.` | `getManualPage` | `manual-image` artifact or manual page display |
-| `What are the validated weld settings for stick welding mild steel at 1/8 inch?` | `getWeldSettings` | Fallback explaining settings are not validated yet |
+| `What are the validated weld settings for stick welding mild steel at 1/8 inch?` | `getWeldSettings` | Fallback explaining no exact validated row matches |
 | `Create a Mermaid decision tree for diagnosing porosity in flux-cored welds.` | troubleshooting + visual reasoning | `mermaid` artifact |
 | `Show me an SVG diagram of the TIG polarity cable routing with the torch on negative and the ground clamp on positive.` | polarity + visual reasoning | `svg` artifact |
 
@@ -94,8 +94,8 @@ Use these prompts if you want the shortest set that touches nearly every impleme
 
 | Prompt | What it should activate |
 |---|---|
-| `What are the validated weld settings for stick welding mild steel at 1/8 inch?` | weld settings fallback |
-| `Give me weld settings for MIG on mild steel at 3/16 inch, and tell me clearly if they are not validated yet.` | weld settings fallback |
+| `What are the validated weld settings for stick welding mild steel at 1/8 inch?` | weld settings no-match fallback |
+| `Give me weld settings for MIG on steel at 3/16 inch, and tell me clearly if there is no exact validated row.` | weld settings no-match fallback |
 | `Build a settings configurator for process, material, and thickness, but do not invent unvalidated wire speed or voltage.` | weld-settings-aware fallback plus interactive intent |
 
 ## Artifact Coverage Prompts

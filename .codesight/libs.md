@@ -1,0 +1,23 @@
+# Libraries
+
+- `lib/agent/artifact-parser.ts`
+  - function parseArtifacts: (source, options) => void
+  - type ParsedArtifact
+  - type ArtifactSegment
+- `lib/agent/weld-settings.ts`
+  - function lookupWeldSettings: (entries, query) => WeldSettingsLookupResult
+  - type WeldSettingsFallback
+  - type ValidatedWeldSetting
+  - type WeldSettingEntry
+  - type WeldSettingsLookupInput
+  - type WeldSettingsLookupResult
+- `lib/chat-transport.ts` — function createPersistentTransport: (options) => void
+- `lib/db/chat-repository.ts`
+  - function createChat: (userId, title) => Promise<Chat>
+  - function getUserChats: (userId) => Promise<ChatSummary[]>
+  - function getChatWithMessages: (chatId, userId) => Promise<ChatWithMessages | null>
+  - function saveMessages: (chatId, newMessages) => Promise<void>
+  - function updateChatTitle: (chatId, title) => Promise<void>
+  - function deleteChat: (chatId, userId) => Promise<boolean>
+  - _...3 more_
+- `lib/hooks/use-chat-list.ts` — function useChatList: (enabled) => void, type ChatListItem

@@ -118,7 +118,6 @@ function parseAttributes(attributeBlock: string) {
 function mapArtifactType(raw: string): string {
   if (raw === "application/vnd.ant.react" || raw === "react") return "react";
   if (raw === "application/vnd.ant.mermaid" || raw === "mermaid") return "mermaid";
-  if (raw === "image/svg+xml" || raw === "svg") return "svg";
   if (raw === "manual-image") return "manual-image";
   return raw;
 }

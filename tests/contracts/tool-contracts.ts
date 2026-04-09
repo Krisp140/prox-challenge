@@ -30,6 +30,23 @@ const troubleshootingMatchSchema = z.object({
   score: z.number(),
 });
 
+const weldSettingValidatedSchema = z
+  .object({
+    validated: z.literal(true),
+    process: processSchema,
+    material: z.string(),
+    thickness: z.string(),
+    source: z.string(),
+  })
+  .passthrough();
+
+const weldSettingFallbackSchema = z
+  .object({
+    validated: z.literal(false),
+    message: z.string(),
+  })
+  .passthrough();
+
 export const toolContracts = {
   lookupSpecifications: {
     input: z.object({
@@ -139,18 +156,17 @@ export const toolContracts = {
   getWeldSettings: {
     input: z.object({
       process: processSchema,
-      material: z.string(),
-      thickness: z.string(),
+      material: z.string().min(1).max(120),
+      thickness: z.string().min(1).max(120),
     }),
     output: z.object({
       process: processSchema,
       material: z.string(),
       thickness: z.string(),
+      exactMatch: z.boolean(),
+      note: z.string().nullable(),
       results: z.array(
-        z.object({
-          validated: z.boolean(),
-          message: z.string(),
-        }),
+        z.union([weldSettingValidatedSchema, weldSettingFallbackSchema]),
       ),
     }),
     sampleInput: {

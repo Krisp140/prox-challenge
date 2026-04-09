@@ -1,7 +1,9 @@
 import { z } from "zod";
 import { describe, expect, it } from "vitest";
 
+import { knowledgeBase } from "@/lib/knowledge";
 import { tools } from "@/lib/agent/tools";
+import { lookupWeldSettings } from "@/lib/agent/weld-settings";
 import { toolContracts, type ToolName } from "@/tests/contracts/tool-contracts";
 
 type ToolDefinition = {
@@ -105,7 +107,7 @@ describe("agent tool contracts", () => {
     expect(parsed.label).toContain("No extracted manual page matches");
   });
 
-  it("keeps weld settings explicitly marked as unvalidated", async () => {
+  it("returns a clear fallback when no validated row matches the requested settings", async () => {
     const result = await (tools.getWeldSettings as ToolDefinition).execute?.({
       process: "stick",
       material: "mild steel",
@@ -114,7 +116,81 @@ describe("agent tool contracts", () => {
 
     const parsed = toolContracts.getWeldSettings.output.parse(result);
 
+    expect(parsed.exactMatch).toBe(false);
+    expect(parsed.note).toContain("no exact match");
     expect(parsed.results[0]?.validated).toBe(false);
-    expect(parsed.results[0]?.message).toContain("pending validation");
+    expect(parsed.results[0]?.message).toContain("No validated weld settings were found");
+  });
+
+  it("matches a validated repo-sourced weld-setting entry from the owner manual", async () => {
+    const result = await (tools.getWeldSettings as ToolDefinition).execute?.({
+      process: "mig",
+      material: "steel",
+      thickness: "24ga",
+    });
+
+    const parsed = toolContracts.getWeldSettings.output.parse(result);
+
+    expect(parsed.exactMatch).toBe(true);
+    expect(parsed.note).toBeNull();
+    expect(parsed.results[0]).toMatchObject({
+      validated: true,
+      process: "mig",
+      material: "steel",
+      thickness: "24 ga",
+      wireSpeed: "121 in/min",
+      voltage: "13.8 V",
+      manualPage: 20,
+    });
+  });
+
+  it("returns a partial-data note when a validated row omits wire speed and voltage", async () => {
+    const result = await (tools.getWeldSettings as ToolDefinition).execute?.({
+      process: "mig",
+      material: "stainless steel",
+      thickness: "24 gauge",
+    });
+
+    const parsed = toolContracts.getWeldSettings.output.parse(result);
+
+    expect(parsed.exactMatch).toBe(true);
+    expect(parsed.note).toContain("does not include a full wire-speed and voltage pair");
+    expect(parsed.results[0]).toMatchObject({
+      validated: true,
+      process: "mig",
+      material: "stainless steel",
+      thickness: "24 ga",
+      wireDiameter: ".025 in",
+      gas: "Stainless Tri-Mix",
+    });
+  });
+
+  it("returns a match from the pure weld-settings lookup helper for normalized thickness input", () => {
+    const steelRow = knowledgeBase.weldSettings.find(
+      (entry) =>
+        entry.validated === true &&
+        entry.process === "mig" &&
+        entry.material === "steel" &&
+        entry.thickness === "24 ga",
+    );
+
+    expect(steelRow).toBeDefined();
+
+    const result = lookupWeldSettings(
+      [steelRow!],
+      {
+        process: "mig",
+        material: "steel",
+        thickness: "24ga",
+      },
+    );
+
+    expect(result.exactMatch).toBe(true);
+    expect(result.note).toBeNull();
+    expect(result.results[0]).toMatchObject({
+      validated: true,
+      thickness: "24 ga",
+      wireSpeed: "121 in/min",
+    });
   });
 });

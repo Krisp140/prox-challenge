@@ -131,11 +131,15 @@ function createArtifactDocument(artifact: ParsedArtifact) {
           "__ReactLib",
           "__RechartsLib",
           "__ReactDomClientLib",
-          \`\${transformed}; return typeof Artifact !== "undefined" ? Artifact : null;\`,
+          \`\${transformed};
+           if (typeof Artifact !== "undefined") return Artifact;
+           if (typeof App !== "undefined") return App;
+           if (typeof Component !== "undefined") return Component;
+           return null;\`,
         )(React, Recharts, { createRoot });
 
         if (!ArtifactComponent) {
-          throw new Error("Artifact must define a top-level Artifact component.");
+          throw new Error("Artifact must define a top-level Artifact, App, or Component function.");
         }
 
         root.render(React.createElement(ArtifactComponent));
@@ -195,12 +199,13 @@ export function normalizeArtifactSource(source: string): string {
 
   const normalizedBody = body
     .join("\n")
-    .replace(/^\s*export\s+default\s+async\s+function\s+Artifact\b/m, "async function Artifact")
-    .replace(/^\s*export\s+default\s+function\s+Artifact\b/m, "function Artifact")
-    .replace(/^\s*export\s+function\s+Artifact\b/m, "function Artifact")
-    .replace(/^\s*export\s+(const|let|var)\s+Artifact\b/m, "$1 Artifact")
-    .replace(/^\s*export\s+default\s+Artifact\s*;?\s*$/m, "")
-    .replace(/^\s*export\s+\{[^}]*Artifact[^}]*\}\s*;?\s*$/m, "");
+    // Strip export keywords from known component names
+    .replace(/^\s*export\s+default\s+async\s+function\s+(Artifact|App|Component)\b/m, "async function $1")
+    .replace(/^\s*export\s+default\s+function\s+(Artifact|App|Component)\b/m, "function $1")
+    .replace(/^\s*export\s+function\s+(Artifact|App|Component)\b/m, "function $1")
+    .replace(/^\s*export\s+(const|let|var)\s+(Artifact|App|Component)\b/m, "$1 $2")
+    .replace(/^\s*export\s+default\s+(Artifact|App|Component)\s*;?\s*$/m, "")
+    .replace(/^\s*export\s+\{[^}]*(Artifact|App|Component)[^}]*\}\s*;?\s*$/m, "");
 
   return prelude.length > 0
     ? `${prelude.join("\n")}\n${normalizedBody}`.trim()

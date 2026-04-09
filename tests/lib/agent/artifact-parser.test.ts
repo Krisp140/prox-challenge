@@ -16,8 +16,8 @@ describe("parseArtifacts", () => {
     const segments = parseArtifacts(
       [
         "Use DCEN for TIG.",
-        '<antArtifact type="svg" title="TIG Setup">',
-        "<svg><text>TIG</text></svg>",
+        '<antArtifact type="application/vnd.ant.mermaid" title="TIG Setup">',
+        "graph TD\n  A[Start] --> B[Done]",
         "</antArtifact>",
         "Always secure the gas cylinder.",
       ].join(""),
@@ -31,9 +31,9 @@ describe("parseArtifacts", () => {
     expect(segments[1]).toMatchObject({
       kind: "artifact",
       artifact: {
-        type: "svg",
+        type: "mermaid",
         title: "TIG Setup",
-        content: "<svg><text>TIG</text></svg>",
+        content: "graph TD\n  A[Start] --> B[Done]",
       },
     });
     expect(segments[2]).toEqual({

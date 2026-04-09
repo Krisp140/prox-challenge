@@ -2,6 +2,7 @@ import { tool } from "ai";
 import { z } from "zod";
 
 import { knowledgeBase } from "@/lib/knowledge";
+import { lookupWeldSettings, type WeldSettingEntry } from "./weld-settings";
 
 const processSchema = z.enum(["mig", "flux-cored", "tig", "stick"]);
 const voltageSchema = z.enum(["120V", "240V"]);
@@ -166,19 +167,26 @@ export const tools = {
   }),
   getWeldSettings: tool({
     description:
-      "Look up validated weld settings for a process, material, and thickness. Returns a clear fallback when validated settings are not loaded yet.",
+      "Look up validated repo-sourced weld settings for a process, material, and thickness. Returns a clear fallback when no rows are loaded or when no exact match exists.",
     inputSchema: z.object({
       process: processSchema,
-      material: z.string(),
-      thickness: z.string(),
+      material: z.string().min(1).max(120),
+      thickness: z.string().min(1).max(120),
     }),
     execute: async ({ process, material, thickness }) => {
       logToolStart("getWeldSettings", { process, material, thickness });
+      const lookup = lookupWeldSettings(knowledgeBase.weldSettings as WeldSettingEntry[], {
+        process,
+        material,
+        thickness,
+      });
       const result = {
         process,
         material,
         thickness,
-        results: knowledgeBase.weldSettings,
+        exactMatch: lookup.exactMatch,
+        note: lookup.note,
+        results: lookup.results,
       };
 
       logToolEnd("getWeldSettings", result);
