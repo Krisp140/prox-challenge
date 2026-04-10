@@ -54,8 +54,9 @@ export function ReactArtifact({ artifact }: ReactArtifactProps) {
   );
 }
 
-function createArtifactDocument(artifact: ParsedArtifact) {
-  const code = JSON.stringify(normalizeArtifactSource(artifact.content));
+export function createArtifactDocument(artifact: ParsedArtifact) {
+  const normalized = normalizeArtifactSource(artifact.content);
+  const code = JSON.stringify(normalized);
 
   return `<!doctype html>
 <html>
@@ -64,6 +65,11 @@ function createArtifactDocument(artifact: ParsedArtifact) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/react-is@18.3.1/umd/react-is.development.js"></script>
+    <script src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
+    <script src="https://unpkg.com/recharts@2.15.4/umd/Recharts.js"></script>
     <style>
       body {
         margin: 0;
@@ -103,46 +109,61 @@ function createArtifactDocument(artifact: ParsedArtifact) {
         publishHeight();
       }
     </script>
-    <script type="module">
+    <script>
       const source = ${code};
 
       try {
         if (typeof window.Babel === "undefined") throw new Error("Babel CDN failed to load");
+        if (!window.React) throw new Error("React UMD failed to load");
+        if (!window.ReactDOM) throw new Error("ReactDOM UMD failed to load");
+        if (!window.Recharts) throw new Error("Recharts UMD failed to load");
 
-        const [{ default: React }, { createRoot }, Recharts] = await Promise.all([
-          import("https://esm.sh/react@19.2.0?target=es2022"),
-          import("https://esm.sh/react-dom@19.2.0/client?target=es2022"),
-          // Bundle Recharts to avoid flaky nested CDN dependency fetches in the iframe.
-          import("https://esm.sh/recharts@2.15.4?bundle&target=es2022"),
-        ]);
+        const React = window.React;
+        const ReactDOM = window.ReactDOM;
+        const Recharts = window.Recharts;
 
         // Expose globals for classic JSX output and artifacts that reference these libraries directly.
         window.React = React;
         window.Recharts = Recharts;
-        window.ReactDOMClient = { createRoot };
+        window.ReactDOMClient = ReactDOM;
 
-        const root = createRoot(document.getElementById("root"));
+        const mountNode = document.getElementById("root");
+        if (!mountNode) throw new Error("Missing artifact mount node");
 
         const transformed = window.Babel.transform(source, {
           presets: ["react"],
         }).code;
 
+        // Extract PascalCase names from the transformed source at runtime,
+        // then build a function body that runs the code and returns the component.
+        const names = (transformed.match(/(?:function|var|const|let)\\s+([A-Z][A-Za-z0-9_]*)/g) || [])
+          .map(m => m.replace(/^(?:function|var|const|let)\\s+/, ""))
+          .filter((v, i, a) => a.indexOf(v) === i);
+
+        // Build return chain — try each discovered name
+        let returnBlock = "";
+        for (const n of names) {
+          returnBlock += "if(typeof " + n + "==='function')return " + n + ";";
+        }
+
         const ArtifactComponent = new Function(
           "__ReactLib",
           "__RechartsLib",
           "__ReactDomClientLib",
-          \`\${transformed};
-           if (typeof Artifact !== "undefined") return Artifact;
-           if (typeof App !== "undefined") return App;
-           if (typeof Component !== "undefined") return Component;
-           return null;\`,
-        )(React, Recharts, { createRoot });
+          transformed + ";" + returnBlock + "return null;",
+        )(React, Recharts, ReactDOM);
 
         if (!ArtifactComponent) {
-          throw new Error("Artifact must define a top-level Artifact, App, or Component function.");
+          throw new Error("No React component found. Names detected: " + names.join(", "));
         }
 
-        root.render(React.createElement(ArtifactComponent));
+        if (typeof ReactDOM.createRoot === "function") {
+          ReactDOM.createRoot(mountNode).render(React.createElement(ArtifactComponent));
+        } else if (typeof ReactDOM.render === "function") {
+          ReactDOM.render(React.createElement(ArtifactComponent), mountNode);
+        } else {
+          throw new Error("ReactDOM root renderer unavailable");
+        }
 
         const observer = new ResizeObserver(() => publishHeight());
         observer.observe(document.body);

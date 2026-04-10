@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { normalizeArtifactSource } from "@/components/artifacts/react-artifact";
+import {
+  createArtifactDocument,
+  normalizeArtifactSource,
+} from "@/components/artifacts/react-artifact";
 
 describe("normalizeArtifactSource", () => {
   it("rewrites common react and recharts imports into sandbox locals", () => {
@@ -84,5 +87,22 @@ describe("normalizeArtifactSource", () => {
     } finally {
       (globalThis as { React?: unknown }).React = originalReact;
     }
+  });
+
+  it("uses a shared browser runtime for React and Recharts", () => {
+    const doc = createArtifactDocument({
+      identifier: "artifact-1",
+      type: "react",
+      title: "Runtime Check",
+      content: "function Artifact() { return <div>ok</div>; }",
+      attributes: {},
+    });
+
+    expect(doc).toContain("https://unpkg.com/react@18.3.1/umd/react.development.js");
+    expect(doc).toContain("https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js");
+    expect(doc).toContain("https://unpkg.com/react-is@18.3.1/umd/react-is.development.js");
+    expect(doc).toContain("https://unpkg.com/prop-types@15.8.1/prop-types.js");
+    expect(doc).toContain("https://unpkg.com/recharts@2.15.4/umd/Recharts.js");
+    expect(doc).not.toContain("https://esm.sh/");
   });
 });

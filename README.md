@@ -2,7 +2,7 @@
 
 <img src="product.webp" alt="Vulcan OmniPro 220" width="400" /> <img src="product-inside.webp" alt="Vulcan OmniPro 220 — inside panel" width="400" />
 
-**Live demo:** [your-deployed-url.vercel.app](https://your-deployed-url.vercel.app)
+**Live demo:** [https://prox-challenge-ten.vercel.app/](https://prox-challenge-ten.vercel.app/)
 
 A multimodal AI support agent for the Vulcan OmniPro 220 multiprocess welder. Ask technical questions and get back streaming responses with interactive React calculators, Mermaid diagnostic flowcharts, actual manual page images, and contextual safety guidance — not just text.
 
